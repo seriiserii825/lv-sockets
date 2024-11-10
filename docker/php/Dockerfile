@@ -1,10 +1,13 @@
 FROM php:8-fpm
 
+# Ensure /bin/sh exists
+RUN apt-get update && apt-get install -y bash
+
 COPY composer.lock composer.json /var/www/
 
 WORKDIR /var/www
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     build-essential \
     libzip-dev \
     libpng-dev \
