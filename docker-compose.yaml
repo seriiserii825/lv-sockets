@@ -1,5 +1,5 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: "3.1"
 
 services:
   nginx:
@@ -37,8 +37,8 @@ services:
     image: mysql:8.3.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Add this line to set the root password
-      MYSQL_DATABASE: sockets     # Add this to automatically create the 'laravel' database
+      MYSQL_ROOT_PASSWORD: root # Add this line to set the root password
+      MYSQL_DATABASE: sockets # Add this to automatically create the 'laravel' database
     volumes:
       - "./docker/mysql:/var/lib/mysql"
     ports:
@@ -50,7 +50,7 @@ services:
     container_name: phpmyadmin_sockets
     restart: always
     ports:
-     - '8084:80'
+      - "8084:80"
     environment:
       MAX_EXECUTION_TIME: 600
       UPLOAD_LIMIT: 800M
@@ -58,4 +58,12 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     depends_on:
-     - mysql
+      - mysql
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/node.docker
+    container_name: node
+    volumes:
+      - ./:/var/www
+    tty: true
