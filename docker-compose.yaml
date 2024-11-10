@@ -57,5 +57,6 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: root
     depends_on:
       - mysql
