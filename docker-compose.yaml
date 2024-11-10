@@ -3,7 +3,7 @@ version: '3.1'
 
 services:
   nginx:
-    container_name: nginx_course
+    container_name: nginx_sockets
     build:
       context: .
       dockerfile: docker/nginx.docker
@@ -17,7 +17,7 @@ services:
       - php-fpm
 
   php-fpm:
-    container_name: php_course
+    container_name: php_sockets
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -33,12 +33,12 @@ services:
       - mysql
 
   mysql:
-    container_name: mysql_course
+    container_name: mysql_sockets
     image: mysql:8.3.0
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root  # Add this line to set the root password
-      MYSQL_DATABASE: course     # Add this to automatically create the 'laravel' database
+      MYSQL_DATABASE: sockets     # Add this to automatically create the 'laravel' database
     volumes:
       - "./docker/mysql:/var/lib/mysql"
     ports:
@@ -47,7 +47,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_course
+    container_name: phpmyadmin_sockets
     restart: always
     ports:
      - '8084:80'
