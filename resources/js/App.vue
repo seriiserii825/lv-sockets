@@ -1,3 +1,16 @@
+<script setup>
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+function logout() {
+    axios.post("/logout").then((response) => {
+        console.log(response.data);
+        router.push({ name: "user.login" });
+    }).catch((error) => {
+        console.log(error.response.data);
+    });
+}
+</script>
 <template>
     <div class="container py-5">
         <h1 class="text-3xl my-5 font-bold underline">Hello world!</h1>
@@ -28,6 +41,14 @@
                                     class="nav-link"
                                     :to="{ name: 'user.registration' }"
                                     >Registration</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    href="#"
+                                    @click.prevent="logout"
+                                    class="nav-link"
+                                    >Logout</a
                                 >
                             </li>
                         </ul>
