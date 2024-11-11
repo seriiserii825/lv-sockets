@@ -9,7 +9,7 @@ async function init() {
                 Accept: "application/json",
             },
         });
-        console.log(data, "data");
+        // console.log(data, "data");
     } catch (error) {
         console.log(error);
     }

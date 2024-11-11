@@ -1,10 +1,10 @@
 <script setup>
 import { useRouter } from "vue-router";
-import {onMounted} from "vue";
-import {ref} from "vue";
+import { onMounted } from "vue";
+import { ref } from "vue";
 
 const router = useRouter();
-const token = ref('');
+const token = ref("");
 function logout() {
     axios
         .post("/logout")
@@ -16,6 +16,7 @@ function logout() {
             console.log(error.response.data);
         });
 }
+
 onMounted(() => {
     token.value = localStorage.getItem("token");
 });
