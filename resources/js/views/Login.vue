@@ -1,8 +1,8 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import {useRouter} from "vue-router";
-
+import { useRouter } from "vue-router";
+import VueCookies from "vue-cookies";
 const router = useRouter();
 
 const email = ref("serii@mail.com");
@@ -17,8 +17,8 @@ function submit() {
                 password: password.value,
             })
             .then((response) => {
-                console.log(response.data);
-                router.push({name: 'home'})
+                localStorage.setItem("token", VueCookies.get("XSRF-TOKEN"));
+                window.location.href = "/page";
             })
             .catch((error) => {
                 errors.value = error.response.data.errors;

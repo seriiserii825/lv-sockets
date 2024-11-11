@@ -1,15 +1,24 @@
 <script setup>
-import {useRouter} from 'vue-router';
+import { useRouter } from "vue-router";
+import {onMounted} from "vue";
+import {ref} from "vue";
 
 const router = useRouter();
+const token = ref('');
 function logout() {
-    axios.post("/logout").then((response) => {
-        console.log(response.data);
-        router.push({ name: "user.login" });
-    }).catch((error) => {
-        console.log(error.response.data);
-    });
+    axios
+        .post("/logout")
+        .then((response) => {
+            localStorage.removeItem("token");
+            window.location.href = "/user/login";
+        })
+        .catch((error) => {
+            console.log(error.response.data);
+        });
 }
+onMounted(() => {
+    token.value = localStorage.getItem("token");
+});
 </script>
 <template>
     <div class="container py-5">
@@ -19,31 +28,31 @@ function logout() {
                 <div class="container-fluid">
                     <div id="navbarNavDropdown">
                         <ul class="navbar-nav">
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="token">
                                 <router-link class="nav-link" to="/"
                                     >Home</router-link
                                 >
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="token">
                                 <router-link class="nav-link" to="/page"
                                     >Page</router-link
                                 >
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="!token">
                                 <router-link
                                     class="nav-link"
                                     :to="{ name: 'user.login' }"
                                     >Login</router-link
                                 >
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="!token">
                                 <router-link
                                     class="nav-link"
                                     :to="{ name: 'user.registration' }"
                                     >Registration</router-link
                                 >
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="token">
                                 <a
                                     href="#"
                                     @click.prevent="logout"

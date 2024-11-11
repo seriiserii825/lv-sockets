@@ -1,7 +1,8 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
+import VueCookies from "vue-cookies";
 
 const router = useRouter();
 
@@ -21,8 +22,8 @@ function submit() {
                 password_confirmation: password_confirmation.value,
             })
             .then((response) => {
-                console.log(response.data);
-                router.push({name: 'home'})
+                localStorage.setItem("token", VueCookies.get("XSRF-TOKEN"));
+                window.location.href = "/page";
             })
             .catch((error) => {
                 errors.value = error.response.data.errors;
@@ -80,14 +81,18 @@ function submit() {
                     placeholder="password_confirmation"
                     class="form-control"
                 />
-                <span class="text-danger" v-if="errors['password_confirmation']">{{
-                    errors["password_confirmation"][0]
-                }}</span>
+                <span
+                    class="text-danger"
+                    v-if="errors['password_confirmation']"
+                    >{{ errors["password_confirmation"][0] }}</span
+                >
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <button @click="submit" class="btn btn-primary">Register</button>
+                <button @click="submit" class="btn btn-primary">
+                    Register
+                </button>
             </div>
         </div>
     </div>
