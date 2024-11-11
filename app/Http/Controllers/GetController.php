@@ -8,6 +8,8 @@ class GetController extends Controller
 {
     public function index()
     {
-        return 'get controller';
+        return response()->json([
+            'message' => 'Hello World!',
+        ]);
     }
 }
