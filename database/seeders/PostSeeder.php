@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PostSeeder extends Seeder
@@ -15,7 +14,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory()->create([
+        Post::create([
             'title' => 'First Post',
             'content' => 'This is the first post content',
             'user_id' => 1,
