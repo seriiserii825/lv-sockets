@@ -9,4 +9,8 @@ class PostImage extends Model
 {
     use HasFactory;
     protected $guarded = false;
+
+    public function getUrlAttirbute(){
+        return asset('storage/'.$this->path);
+    }
 }

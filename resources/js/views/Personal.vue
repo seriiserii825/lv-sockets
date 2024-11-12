@@ -6,6 +6,7 @@ import axios from "axios";
 const title = ref("");
 const content = ref("");
 const file = ref(null);
+const image = ref(null);
 
 const submit = async () => {
     const formData = new FormData();
@@ -19,7 +20,9 @@ const submit = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log(response, "response");
+        console.log(response.data.data, "response.data");
+        image.value = response.data.data.url;
+        console.log(image.value, "image.value");
     } catch (error) {
         console.log(error);
     }
@@ -53,6 +56,9 @@ const submit = async () => {
                         v-model:value="file"
                         type="file"
                     />
+                </div>
+                <div style="border: 1px solid red;" v-if="image" class="mb-3">
+                    <img :src="image" alt="" />
                 </div>
                 <button type="btn" @click="submit" class="btn btn-primary">
                     Submit
