@@ -9,8 +9,9 @@ const file = ref(null);
 
 const submit = async () => {
     const formData = new FormData();
-    formData.append("title", title.value);
-    formData.append("content", content.value);
+    // formData.append("title", title.value);
+    // formData.append("content", content.value);
+    formData.append("post_id", 1);
     formData.append("image", file.value);
     try {
         const response = await axios.post("/api/post_image", formData, {
