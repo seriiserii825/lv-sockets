@@ -35,6 +35,11 @@ onMounted(() => {
                                 >
                             </li>
                             <li class="nav-item" v-if="token">
+                                <router-link  class="nav-link" to="/personal"
+                                    >Personal</router-link
+                                >
+                            </li>
+                            <li class="nav-item" v-if="token">
                                 <router-link class="nav-link" to="/page"
                                     >Page</router-link
                                 >
@@ -69,3 +74,12 @@ onMounted(() => {
         <router-view />
     </div>
 </template>
+<style lang="scss">
+.navbar-nav {
+    a {
+        &.router-link-exact-active {
+            color: red;
+        }
+    }
+}
+</style>

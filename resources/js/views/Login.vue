@@ -18,7 +18,7 @@ function submit() {
             })
             .then((response) => {
                 localStorage.setItem("token", VueCookies.get("XSRF-TOKEN"));
-                window.location.href = "/page";
+                window.location.href = "/personal";
             })
             .catch((error) => {
                 errors.value = error.response.data.errors;
