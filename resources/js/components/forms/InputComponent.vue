@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const emits = defineEmits(["update:value"]);
+const emits = defineEmits(["update:value", "emit_file"]);
 
 const props = defineProps({
     name: String,
@@ -16,14 +16,16 @@ const props = defineProps({
     },
 });
 
-function changeHandler(e: any) {
+function inputHandler(e: any) {
     if (!e.target) return;
     let value = e.target.value;
-    if (props.type == "file") {
-        value = e.target.files[0];
-    }
-    // console.log(value, "value");
     emits("update:value", value);
+}
+
+function changeHandler(e: any) {
+    if (!e.target) return;
+    let value = e.target.files[0];
+    emits("emit_file", value);
 }
 </script>
 
@@ -34,6 +36,7 @@ function changeHandler(e: any) {
         class="form-control"
         :placeholder="placeholder"
         :value="value"
-        @input="changeHandler"
+        @input="inputHandler"
+        @change="changeHandler"
     />
 </template>

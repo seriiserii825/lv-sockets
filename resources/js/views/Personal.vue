@@ -5,13 +5,11 @@ import axios from "axios";
 
 const title = ref("");
 const content = ref("");
-const file = ref(null);
+const file = ref(File | null);
 const image = ref(null);
 
 const submit = async () => {
     const formData = new FormData();
-    // formData.append("title", title.value);
-    // formData.append("content", content.value);
     formData.append("post_id", 1);
     formData.append("image", file.value);
     try {
@@ -20,13 +18,20 @@ const submit = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log(response.data.data, "response.data");
+        console.log(response.data.data.url, "response.data.data.url");
         image.value = response.data.data.url;
         console.log(image.value, "image.value");
     } catch (error) {
         console.log(error);
     }
 };
+
+function onFileChanged($event) {
+    const target = $event.target;
+    if (target && target.files) {
+        file.value = target.files[0];
+    }
+}
 </script>
 
 <template>
@@ -50,17 +55,24 @@ const submit = async () => {
                     ></textarea>
                 </div>
                 <div class="mb-3">
-                    <InputComponent
-                        name="file"
-                        placeholder="File"
-                        v-model:value="file"
+                    <input
                         type="file"
+                        @change="onFileChanged($event)"
+                        accept="image/*"
+                        capture
                     />
                 </div>
-                <div style="border: 1px solid red;" v-if="image" class="mb-3">
-                    <img :src="image" alt="" />
+                <div class="d-flex  align-items-start gap-3">
+                    <div v-if="image" class="mb-3">
+                        <img :src="image" alt="" />
+                    </div>
+                    <button  v-if="image" @click.prevent="image = null" class="btn btn-danger">Cancel</button>
                 </div>
-                <button type="btn" @click="submit" class="btn btn-primary">
+                <button
+                    type="btn"
+                    @click.prevent="submit"
+                    class="btn btn-primary"
+                >
                     Submit
                 </button>
             </div>
