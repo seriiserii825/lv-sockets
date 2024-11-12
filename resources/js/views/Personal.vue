@@ -4,6 +4,7 @@ import InputComponent from "../components/forms/InputComponent.vue";
 
 const title = ref("");
 const content = ref("");
+const file = ref("");
 </script>
 
 <template>
@@ -25,6 +26,14 @@ const content = ref("");
                         placeholder="content"
                         rows="10"
                     ></textarea>
+                </div>
+                <div class="mb-3">
+                    <InputComponent
+                        name="file"
+                        placeholder="File"
+                        v-model:value="file"
+                        type="file"
+                    />
                 </div>
                 <button type="btn" class="btn btn-primary">Submit</button>
             </div>
