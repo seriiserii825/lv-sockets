@@ -22,7 +22,7 @@ function changeHandler(e: any) {
     if (props.type == "file") {
         value = e.target.files[0];
     }
-    console.log(value, "value");
+    // console.log(value, "value");
     emits("update:value", value);
 }
 </script>

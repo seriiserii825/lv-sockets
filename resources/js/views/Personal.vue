@@ -1,10 +1,28 @@
 <script setup>
 import { ref } from "vue";
 import InputComponent from "../components/forms/InputComponent.vue";
+import axios from "axios";
 
 const title = ref("");
 const content = ref("");
-const file = ref("");
+const file = ref(null);
+
+const submit = async () => {
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("content", content.value);
+    formData.append("image", file.value);
+    try {
+        const response = await axios.post("/api/post_image", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        console.log(response, "response");
+    } catch (error) {
+        console.log(error);
+    }
+};
 </script>
 
 <template>
@@ -35,7 +53,9 @@ const file = ref("");
                         type="file"
                     />
                 </div>
-                <button type="btn" class="btn btn-primary">Submit</button>
+                <button type="btn" @click="submit" class="btn btn-primary">
+                    Submit
+                </button>
             </div>
         </div>
     </div>
