@@ -18,9 +18,7 @@ const submit = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log(response.data.data.url, "response.data.data.url");
-        image.value = response.data.data.url;
-        console.log(image.value, "image.value");
+        image.value = response.data.data;
     } catch (error) {
         console.log(error);
     }
@@ -30,6 +28,19 @@ function onFileChanged($event) {
     const target = $event.target;
     if (target && target.files) {
         file.value = target.files[0];
+    }
+}
+
+async function submitPost() {
+    try {
+        const response = await axios.post("/api/posts", {
+            title: title.value,
+            content: content.value,
+            image_id: image.value ? image.value.id : null,
+        });
+        console.log(response, "response");
+    } catch (error) {
+        cnosole.log(error);
     }
 }
 </script>
@@ -62,18 +73,32 @@ function onFileChanged($event) {
                         capture
                     />
                 </div>
-                <div class="d-flex  align-items-start gap-3">
+                <div class="d-flex align-items-start gap-3">
                     <div v-if="image" class="mb-3">
-                        <img :src="image" alt="" />
+                        <img :src="image.url" alt="" />
                     </div>
-                    <button  v-if="image" @click.prevent="image = null" class="btn btn-danger">Cancel</button>
+                    <button
+                        v-if="image"
+                        @click.prevent="image = null"
+                        class="btn btn-danger"
+                    >
+                        Cancel
+                    </button>
                 </div>
                 <button
                     type="btn"
                     @click.prevent="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary mr-3"
                 >
-                    Submit
+                    Upload image
+                </button>
+
+                <button
+                        type="btn"
+                        @click.prevent="submitPost"
+                    class="btn btn-success"
+                >
+                    Submit post
                 </button>
             </div>
         </div>

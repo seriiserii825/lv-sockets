@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\StoreRequest;
+use App\Models\Post;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -33,9 +36,23 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $image_id = $data['image_id'];
+        unset($data['image_id']);
+        $data['user_id'] = auth()->id();
+        $post = Post::create($data);
+        $this->processImage($post, $image_id);
+        return response()->json($post, 201);
+    }
+
+    protected function processImage($post, $image_id)
+    {
+        if (isset($image_id)) {
+            $image = PostImage::find($image_id);
+            $image->update(['status' => true, 'post_id' => $post->id]);
+        }
     }
 
     /**
