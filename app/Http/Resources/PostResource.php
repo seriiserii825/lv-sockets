@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PostImage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -14,11 +15,17 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
+        $image = isset($this->image) ? $this->image->id : null;
+        if ($image !== null) {
+            $image_url = PostImage::where('post_id', $this->id)->first()->getUrlAttirbute();
+        }else{
+            $image_url = null;
+        }
         return [
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'image_url' => $this->image->url,
+            'image_url' => $image_url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

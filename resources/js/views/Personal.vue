@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import InputComponent from "../components/forms/InputComponent.vue";
 import axios from "axios";
 import Loading from "../components/ui/Loading.vue";
 import Errors from "../components/ui/Errors.vue";
+import Posts from "../components/posts/Posts.vue";
 
 const title = ref("");
 const content = ref("");
@@ -13,6 +14,17 @@ const loading_img = ref(false);
 const loading_post = ref(false);
 const checked = ref(false);
 const errors = ref([]);
+const posts = ref([]);
+
+const getPosts = async () => {
+    try {
+        const response = await axios.get("/api/posts");
+        console.log(JSON.stringify(response.data.data, null, 4));
+        posts.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 const uploadImage = async () => {
     loading_img.value = true;
@@ -60,6 +72,10 @@ async function publish() {
         loading_post.value = false;
     }
 }
+
+onMounted(async () => {
+    await getPosts();
+});
 </script>
 
 <template>
@@ -138,5 +154,9 @@ async function publish() {
                 >
             </div>
         </div>
+    </div>
+    <Loading v-if="loading_post" />
+    <div class="row" v-else-if="posts.length">
+        <Posts :posts="posts" />
     </div>
 </template>
