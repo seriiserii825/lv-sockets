@@ -65,6 +65,7 @@ async function publish() {
         title.value = "";
         content.value = "";
         image.value = null;
+        await getPosts();
         loading_post.value = false;
     } catch (error) {
         console.log(error, "error");
