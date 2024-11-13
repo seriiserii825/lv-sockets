@@ -48,6 +48,8 @@ class PostController extends Controller
             $data['user_id'] = auth()->id();
             $post = Post::create($data);
             $this->processImage($post, $image_id);
+
+            PostImage::clearStorage();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
