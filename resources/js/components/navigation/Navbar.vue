@@ -31,6 +31,9 @@ onMounted(() => {
                         <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item" v-if="token">
+                        <router-link class="nav-link" to="/users">Users</router-link>
+                    </li>
+                    <li class="nav-item" v-if="token">
                         <router-link class="nav-link" to="/personal"
                             >Personal</router-link
                         >
