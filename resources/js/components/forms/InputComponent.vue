@@ -24,8 +24,10 @@ function inputHandler(e: any) {
 
 function changeHandler(e: any) {
     if (!e.target) return;
-    let value = e.target.files[0];
-    emits("emit_file", value);
+    if (props.type == "file") {
+        let value = e.target.files[0];
+        emits("emit_file", value);
+    }
 }
 </script>
 

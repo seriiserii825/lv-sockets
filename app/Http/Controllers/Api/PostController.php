@@ -49,7 +49,9 @@ class PostController extends Controller
             $post = Post::create($data);
             $this->processImage($post, $image_id);
 
-            PostImage::clearStorage();
+            if ($request['clear_storage']) {
+                PostImage::clearStorage();
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();

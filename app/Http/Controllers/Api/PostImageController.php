@@ -15,7 +15,6 @@ class PostImageController extends Controller
         $path = Storage::disk('public')->put('/images', $request->file('image'));
         $image =       PostImage::create([
             'path' => $path,
-            // 'post_id' => $request->post_id,
             'user_id' => auth()->id(),
         ]);
         return new PostImageResource($image);

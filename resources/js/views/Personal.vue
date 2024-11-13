@@ -11,6 +11,7 @@ const file = ref(File | null);
 const image = ref(null);
 const loading_img = ref(false);
 const loading_post = ref(false);
+const checked = ref(false);
 const errors = ref([]);
 
 const uploadImage = async () => {
@@ -46,6 +47,7 @@ async function publish() {
             title: title.value,
             content: content.value,
             image_id: image.value ? image.value.id : null,
+            clear_storage: checked.value,
         });
         console.log(response, "response");
         title.value = "";
@@ -113,7 +115,7 @@ async function publish() {
                 <Loading v-if="loading_img" />
             </button>
         </div>
-        <div clas="d-flex gap-3">
+        <div class="d-flex gap-3">
             <button
                 type="btn"
                 @click.prevent="publish"
@@ -123,6 +125,18 @@ async function publish() {
                 <span>Publish</span>
                 <Loading v-if="loading_post" />
             </button>
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    @change="checked = !checked"
+                    id="flexCheckChecked"
+                    :checked="checked"
+                />
+                <label class="form-check-label" for="flexCheckChecked"
+                    >Clear Storage</label
+                >
+            </div>
         </div>
     </div>
 </template>
