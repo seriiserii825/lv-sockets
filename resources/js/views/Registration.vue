@@ -33,67 +33,61 @@ function submit() {
 </script>
 
 <template>
-    <div class="col-lg-6">
-        <div class="row mb-3">
-            <div class="col-6">
-                <input
-                    v-model="email"
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    class="form-control"
-                />
-                <span class="text-danger" v-if="errors['email']">{{
-                    errors["email"][0]
-                }}</span>
-            </div>
-            <div class="col-6">
-                <input
-                    v-model="password"
-                    type="text"
-                    name="password"
-                    placeholder="password"
-                    class="form-control"
-                />
-                <span class="text-danger" v-if="errors['password']">{{
-                    errors["password"][0]
-                }}</span>
-            </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <input
+                v-model="email"
+                type="email"
+                name="email"
+                placeholder="email"
+                class="form-control"
+            />
+            <span class="text-danger" v-if="errors['email']">{{
+                errors["email"][0]
+            }}</span>
         </div>
-        <div class="row mb-3">
-            <div class="col-6">
-                <input
-                    v-model="name"
-                    type="name"
-                    name="name"
-                    placeholder="name"
-                    class="form-control"
-                />
-                <span class="text-danger" v-if="errors['name']">{{
-                    errors["name"][0]
-                }}</span>
-            </div>
-            <div class="col-6">
-                <input
-                    v-model="password_confirmation"
-                    type="text"
-                    name="password_confirmation"
-                    placeholder="password_confirmation"
-                    class="form-control"
-                />
-                <span
-                    class="text-danger"
-                    v-if="errors['password_confirmation']"
-                    >{{ errors["password_confirmation"][0] }}</span
-                >
-            </div>
+        <div class="col-6">
+            <input
+                v-model="password"
+                type="text"
+                name="password"
+                placeholder="password"
+                class="form-control"
+            />
+            <span class="text-danger" v-if="errors['password']">{{
+                errors["password"][0]
+            }}</span>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <button @click="submit" class="btn btn-primary">
-                    Register
-                </button>
-            </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <input
+                v-model="name"
+                type="name"
+                name="name"
+                placeholder="name"
+                class="form-control"
+            />
+            <span class="text-danger" v-if="errors['name']">{{
+                errors["name"][0]
+            }}</span>
+        </div>
+        <div class="col-6">
+            <input
+                v-model="password_confirmation"
+                type="text"
+                name="password_confirmation"
+                placeholder="password_confirmation"
+                class="form-control"
+            />
+            <span class="text-danger" v-if="errors['password_confirmation']">{{
+                errors["password_confirmation"][0]
+            }}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button @click="submit" class="btn btn-primary">Register</button>
         </div>
     </div>
 </template>

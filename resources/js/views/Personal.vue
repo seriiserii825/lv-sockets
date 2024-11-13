@@ -48,59 +48,57 @@ async function submitPost() {
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <InputComponent
-                        name="title"
-                        placeholder="Title"
-                        v-model:value="title"
-                    />
-                </div>
-                <div class="mb-3">
-                    <textarea
-                        name="content"
-                        class="form-control"
-                        v-model="content"
-                        placeholder="content"
-                        rows="10"
-                    ></textarea>
-                </div>
-                <div class="mb-3">
-                    <input
-                        type="file"
-                        @change="onFileChanged($event)"
-                        accept="image/*"
-                        capture
-                    />
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                    <div v-if="image" class="mb-3">
-                        <img :src="image.url" alt="" />
-                    </div>
-                    <button
-                        v-if="image"
-                        @click.prevent="image = null"
-                        class="btn btn-danger"
-                    >
-                        Cancel
-                    </button>
+            <div class="mb-3">
+                <InputComponent
+                    name="title"
+                    placeholder="Title"
+                    v-model:value="title"
+                />
+            </div>
+            <div class="mb-3">
+                <textarea
+                    name="content"
+                    class="form-control"
+                    v-model="content"
+                    placeholder="content"
+                    rows="10"
+                ></textarea>
+            </div>
+            <div class="mb-3">
+                <input
+                    type="file"
+                    @change="onFileChanged($event)"
+                    accept="image/*"
+                    capture
+                />
+            </div>
+            <div class="d-flex align-items-start gap-3">
+                <div v-if="image" class="mb-3">
+                    <img :src="image.url" alt="" />
                 </div>
                 <button
-                    type="btn"
-                    @click.prevent="submit"
-                    class="btn btn-primary mr-3"
+                    v-if="image"
+                    @click.prevent="image = null"
+                    class="btn btn-danger"
                 >
-                    Upload image
-                </button>
-
-                <button
-                        type="btn"
-                        @click.prevent="submitPost"
-                    class="btn btn-success"
-                >
-                    Submit post
+                    Cancel
                 </button>
             </div>
+            <button
+                type="btn"
+                @click.prevent="submit"
+                class="btn btn-primary mr-3"
+            >
+                Upload image
+            </button>
+
+            <button
+                type="btn"
+                @click.prevent="submitPost"
+                class="btn btn-success"
+            >
+                Submit post
+            </button>
         </div>
     </div>
 </template>
