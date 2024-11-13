@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\PostImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -39,19 +41,29 @@ class PostController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        $image_id = $data['image_id'];
-        unset($data['image_id']);
-        $data['user_id'] = auth()->id();
-        $post = Post::create($data);
-        $this->processImage($post, $image_id);
-        return response()->json($post, 201);
+        try {
+            DB::beginTransaction();
+            $image_id = $data['image_id'];
+            unset($data['image_id']);
+            $data['user_id'] = auth()->id();
+            $post = Post::create($data);
+            $this->processImage($post, $image_id);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage(),
+                'message' => 'Failed to create post'
+            ], 500);
+        }
+        return new PostResource($post);
     }
 
     protected function processImage($post, $image_id)
     {
         if (isset($image_id)) {
             $image = PostImage::find($image_id);
-            $image->update(['status' => true, 'post_id' => $post->id]);
+            $image->update(['post_id' => $post->id]);
         }
     }
 
