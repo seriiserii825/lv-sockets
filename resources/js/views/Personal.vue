@@ -46,44 +46,44 @@ async function submitPost() {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="mb-3">
-                <InputComponent
-                    name="title"
-                    placeholder="Title"
-                    v-model:value="title"
-                />
+    <div class="row">
+        <h2 class="mb-3 h2">Create Post:</h2>
+        <div class="mb-3">
+            <InputComponent
+                name="title"
+                placeholder="Title"
+                v-model:value="title"
+            />
+        </div>
+        <div class="mb-3">
+            <textarea
+                name="content"
+                class="form-control"
+                v-model="content"
+                placeholder="content"
+                rows="10"
+            ></textarea>
+        </div>
+        <div class="mb-3">
+            <input
+                type="file"
+                @change="onFileChanged($event)"
+                accept="image/*"
+                capture
+            />
+        </div>
+        <div class="d-flex align-items-start gap-3 mb-4">
+            <div v-if="image" class="mb-3">
+                <img :src="image.url" alt="" />
             </div>
-            <div class="mb-3">
-                <textarea
-                    name="content"
-                    class="form-control"
-                    v-model="content"
-                    placeholder="content"
-                    rows="10"
-                ></textarea>
-            </div>
-            <div class="mb-3">
-                <input
-                    type="file"
-                    @change="onFileChanged($event)"
-                    accept="image/*"
-                    capture
-                />
-            </div>
-            <div class="d-flex align-items-start gap-3">
-                <div v-if="image" class="mb-3">
-                    <img :src="image.url" alt="" />
-                </div>
-                <button
-                    v-if="image"
-                    @click.prevent="image = null"
-                    class="btn btn-danger"
-                >
-                    Cancel
-                </button>
-            </div>
+            <button
+                v-if="image"
+                @click.prevent="image = null"
+                class="btn btn-danger"
+            >
+                Cancel
+            </button>
+
             <button
                 type="btn"
                 @click.prevent="submit"
@@ -91,13 +91,14 @@ async function submitPost() {
             >
                 Upload image
             </button>
-
+        </div>
+        <div clas="d-flex gap-3">
             <button
                 type="btn"
                 @click.prevent="submitPost"
                 class="btn btn-success"
             >
-                Submit post
+                Publish
             </button>
         </div>
     </div>
