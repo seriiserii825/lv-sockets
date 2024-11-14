@@ -28,6 +28,7 @@ class PostResource extends JsonResource
             'image_url' => $image_url,
             'date' => $this->created_at->diffForHumans(),
             'is_liked' => $this->is_liked ?? false,
+            'likes_count' => $this->likedUsers->count(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

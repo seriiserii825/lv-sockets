@@ -10,11 +10,15 @@ class Post extends Model
     use HasFactory;
     protected $guarded = false;
 
-    // for one request for post, will get the image
-    protected $with = ['image'];
+    protected $with = ['image', 'likedUsers'];
 
     public function image(){
         return $this->hasOne(PostImage::class, 'post_id', 'id')->whereNotNull('post_id');
+    }
+
+    public function likedUsers()
+    {
+        return $this->belongsToMany(User::class, 'liked_posts', 'post_id', 'user_id');
     }
 
 }
