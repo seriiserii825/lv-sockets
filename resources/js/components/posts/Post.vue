@@ -1,10 +1,22 @@
 <script setup lang="ts">
+import axios from "axios";
 import IconHeart from "../icons/IconHeart.vue";
+import {ref} from "vue";
 
 const props = defineProps({
     post: Object,
 });
 
+const is_liked = ref(false);
+
+async function toggleLike() {
+    try {
+        const res = await axios.get(`/api/posts/${props.post.id}/toggle_liked`);
+        is_liked.value = res.data.is_liked;
+    } catch (error) {
+        console.error("error", error);
+    }
+}
 </script>
 
 <template>
@@ -19,8 +31,8 @@ const props = defineProps({
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.content }}</p>
             <p class="d-flex justify-content-between mt-3 card-text">
-                <a href="#">
-                    <IconHeart :fill="`${post.is_liked ? 'red' : 'white'}`" />
+                <a href="#" @click.prepend="toggleLike">
+                    <IconHeart :fill="`${is_liked ? 'red' : 'white'}`" />
                 </a>
                 <small class="text-muted">{{ post.date }}</small>
             </p>
