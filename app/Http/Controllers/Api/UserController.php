@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
+use App\Models\Post;
 use App\Models\SubscriberFollowing;
 use App\Models\User;
 
@@ -36,5 +37,12 @@ class UserController extends Controller
   {
     $res = auth()->user()->followings()->toggle($user->id);
     return  count($res['attached']) > 0;
+  }
+
+  public function followingPosts()
+  {
+      $following_ids = auth()->user()->followings->pluck('id')->toArray();
+      $posts = Post::whereIn('user_id', $following_ids)->get();
+      return PostResource::collection($posts);
   }
 }
