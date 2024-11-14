@@ -2,6 +2,7 @@
 import axios from "axios";
 import IconHeart from "../icons/IconHeart.vue";
 import {ref} from "vue";
+import {onMounted} from "vue";
 
 const props = defineProps({
     post: Object,
@@ -17,6 +18,10 @@ async function toggleLike() {
         console.error("error", error);
     }
 }
+
+onMounted(() => {
+    is_liked.value = props.post.is_liked;
+});
 </script>
 
 <template>

@@ -11,7 +11,6 @@ const getPosts = async () => {
     loading_post.value = true;
     try {
         const response = await axios.get(`/api/users/following_posts`);
-        console.log("response", response);
         posts.value = response.data.data;
         loading_post.value = false;
     } catch (error) {

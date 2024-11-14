@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Resources\PostResource;
+use App\Models\LikedPost;
 use App\Models\Post;
 use App\Models\PostImage;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('user_id', auth()->id())->latest()->get();
+        $liked_posts = LikedPost::where('user_id', auth()->id())->get('post_id')->pluck('post_id')->toArray();
+        $posts->map(function ($post) use ($liked_posts) {
+            $post->is_liked = in_array($post->id, $liked_posts);
+            return $post;
+        });
         return PostResource::collection($posts);
     }
 
