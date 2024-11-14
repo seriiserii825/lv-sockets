@@ -21,13 +21,8 @@ async function getUsers() {
 async function toggleFollowed(id: number) {
     loading.value = true;
     try {
-        const res = await axios.get(`/api/users/${id}/toggle_following`);
-        users.value = users.value.map((user: any) => {
-            if (user.id === id) {
-                user.followed = res.data.attached;
-            }
-            return user;
-        });
+        await axios.get(`/api/users/${id}/toggle_following`);
+        await getUsers();
         loading.value = false;
     } catch (error) {
         loading.value = false;
@@ -41,7 +36,8 @@ onMounted(async () => {
 
 <template>
     <h2 class="mb-4">Users:</h2>
-    <table class="table">
+    <Loading v-if="loading" />
+    <table v-else class="table">
         <thead>
             <tr>
                 <th scope="col">#Id</th>
@@ -51,7 +47,6 @@ onMounted(async () => {
                 <th scope="col">Followed</th>
             </tr>
         </thead>
-        <Loading v-if="loading" />
         <tbody v-if="users.length">
             <tr v-for="(user, index) in users" :key="index">
                 <td>{{ user.id }}</td>
@@ -69,9 +64,9 @@ onMounted(async () => {
                     <button
                         @click="toggleFollowed(user.id)"
                         class="btn btn-primary"
-                        :class="{ 'btn-success': user.followed }"
+                        :class="{ 'btn-success': user.is_followed }"
                     >
-                    {{ user.followed ? 'Following' : 'Follow' }}
+                        {{ user.is_followed ? "Following" : "Follow" }}
                     </button>
                 </td>
             </tr>
