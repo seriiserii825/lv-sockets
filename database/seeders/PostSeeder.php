@@ -14,10 +14,30 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        Post::create([
-            'title' => 'First Post',
-            'content' => 'This is the first post content',
-            'user_id' => 1,
-        ]);
+        $posts = [
+            [
+                'title' => 'First Post',
+                'content' => 'This is the first post content',
+                'user_id' => 1,
+            ],
+            [
+                'title' => 'Second Post',
+                'content' => 'This is the second post content',
+                'user_id' => 2,
+            ],
+            [
+                'title' => 'Third Post',
+                'content' => 'This is the third post content',
+                'user_id' => 1,
+            ],
+            [
+                'title' => 'Fourth Post',
+                'content' => 'This is the fourth post content',
+                'user_id' => 2,
+            ],
+        ];
+        foreach ($posts as $post) {
+            Post::factory()->create($post);
+        }
     }
 }
