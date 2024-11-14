@@ -116,4 +116,12 @@ class PostController extends Controller
     {
         //
     }
+
+    public function toggleLiked(Post $post)
+    {
+        $res = auth()->user()->likedPosts()->toggle($post->id);
+        $data['is_liked'] = count($res['attached']) > 0;
+        return $data;
+    }
+
 }
