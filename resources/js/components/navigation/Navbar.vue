@@ -31,7 +31,7 @@ onMounted(() => {
                     <NavbarItem v-if="token" name="home" title="Home" />
                     <NavbarItem v-if="token" name="users" title="Users" />
                     <NavbarItem v-if="token" name="personal" title="Personal" />
-                    <NavbarItem v-if="token" name="page" title="Page" />
+                    <NavbarItem v-if="token" name="user.followings" title="Followings" />
                     <NavbarItem v-if="!token" name="user.login" title="Login" />
                     <NavbarItem
                         v-if="!token"

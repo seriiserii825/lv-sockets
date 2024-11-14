@@ -3,7 +3,8 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import Loading from "../components/ui/Loading.vue";
 import Posts from "../components/posts/Posts.vue";
-import { useRoute, useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import ShowUser from "../components/user/ShowUser.vue";
 
 const route = useRoute();
 
@@ -34,6 +35,7 @@ async function getUser() {
         console.log(error);
         loading_post.value = false;
     }
+
 }
 
 onMounted(async () => {
@@ -43,7 +45,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <h2 class="mb-4">Posts of {{ user.name }} - <strong>{{ user.email }}</strong>:</h2>
+    <ShowUser v-if="user" :user="user" />
     <Loading v-if="loading_post" />
     <div class="row" v-else-if="posts.length">
         <Posts :posts="posts" />

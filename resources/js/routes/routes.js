@@ -19,6 +19,11 @@ const router = createRouter({
             name: "user.posts",
         },
         {
+            path: "/users/following_posts",
+            component: () => import("../views/FollowingPosts.vue"),
+            name: "user.followings",
+        },
+        {
             path: "/personal",
             component: () => import("../views/Personal.vue"),
             name: "personal",

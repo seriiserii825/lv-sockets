@@ -16,37 +16,37 @@ class PostSeeder extends Seeder
     {
         $posts = [
             [
-                'title' => 'First Post',
+                'title' => 'First Post(serii)',
                 'content' => 'This is the first post content',
                 'user_id' => 1,
             ],
             [
-                'title' => 'Second Post',
+                'title' => 'Second Post(radu)',
                 'content' => 'This is the second post content',
-                'user_id' => 2,
+                'user_id' => 3,
             ],
             [
-                'title' => 'Third Post',
+                'title' => 'Third Post(serii)',
                 'content' => 'This is the third post content',
                 'user_id' => 1,
             ],
             [
-                'title' => 'Fourth Post',
+                'title' => 'Fourth Post(zezik)',
                 'content' => 'This is the fourth post content',
                 'user_id' => 2,
             ],
             [
-                'title' => 'Fifth Post',
+                'title' => 'Fifth Post(radu)',
                 'content' => 'This is the fifth post content',
                 'user_id' => 3,
             ],
             [
-                'title' => 'Sixth Post',
+                'title' => 'Sixth Post(radu)',
                 'content' => 'This is the sixth post content',
                 'user_id' => 3,
             ],
             [
-                'title' => 'Seventh Post',
+                'title' => 'Seventh Post(serii)',
                 'content' => 'This is the seventh post content',
                 'user_id' => 1,
             ]
