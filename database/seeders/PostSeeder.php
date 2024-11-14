@@ -35,6 +35,21 @@ class PostSeeder extends Seeder
                 'content' => 'This is the fourth post content',
                 'user_id' => 2,
             ],
+            [
+                'title' => 'Fifth Post',
+                'content' => 'This is the fifth post content',
+                'user_id' => 3,
+            ],
+            [
+                'title' => 'Sixth Post',
+                'content' => 'This is the sixth post content',
+                'user_id' => 3,
+            ],
+            [
+                'title' => 'Seventh Post',
+                'content' => 'This is the seventh post content',
+                'user_id' => 1,
+            ]
         ];
         foreach ($posts as $post) {
             Post::factory()->create($post);
