@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import Navbar from "./components/navigation/Navbar.vue";
 import ShowUser from "./components/user/ShowUser.vue";
 
@@ -19,9 +19,11 @@ async function getAuthUser() {
 }
 
 onMounted(async () => {
-    await getAuthUser();
+    const token = localStorage.getItem("token");
+    if (token) {
+        await getAuthUser();
+    }
 });
-
 </script>
 <template>
     <div class="container py-5">
