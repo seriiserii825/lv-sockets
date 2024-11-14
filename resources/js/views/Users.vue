@@ -3,7 +3,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Loading from "../components/ui/Loading.vue";
 
-const users = ref([]);
+const users = ref<any>([]);
 const loading = ref(false);
 
 async function getUsers() {
@@ -14,6 +14,22 @@ async function getUsers() {
         loading.value = false;
     } catch (error) {
         console.log(error, "error");
+        loading.value = false;
+    }
+}
+
+async function toggleFollowed(id: number) {
+    loading.value = true;
+    try {
+        const res = await axios.get(`/api/users/${id}/toggle_following`);
+        users.value = users.value.map((user: any) => {
+            if (user.id === id) {
+                user.followed = res.data.attached;
+            }
+            return user;
+        });
+        loading.value = false;
+    } catch (error) {
         loading.value = false;
     }
 }
@@ -32,6 +48,7 @@ onMounted(async () => {
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Link</th>
+                <th scope="col">Followed</th>
             </tr>
         </thead>
         <Loading v-if="loading" />
@@ -42,11 +59,20 @@ onMounted(async () => {
                 <td>{{ user.email }}</td>
                 <td>
                     <router-link
-                            :to="{ name: 'user.posts', params: { id: user.id } }"
-                            class="btn btn-success"
+                        :to="{ name: 'user.posts', params: { id: user.id } }"
+                        class="btn btn-success"
                     >
                         View
                     </router-link>
+                </td>
+                <td>
+                    <button
+                        @click="toggleFollowed(user.id)"
+                        class="btn btn-primary"
+                        :class="{ 'btn-success': user.followed }"
+                    >
+                    {{ user.followed ? 'Following' : 'Follow' }}
+                    </button>
                 </td>
             </tr>
         </tbody>
