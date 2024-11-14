@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import VueCookies from "vue-cookies";
-
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -14,6 +12,11 @@ const router = createRouter({
             path: "/users",
             component: () => import("../views/Users.vue"),
             name: "users",
+        },
+        {
+            path: "/users/:id/posts",
+            component: () => import("../views/User.vue"),
+            name: "users.posts",
         },
         {
             path: "/personal",

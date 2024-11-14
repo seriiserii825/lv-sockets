@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { ref } from "vue";
 import axios from "axios";
+import NavbarItem from "./NavbarItem.vue";
 
 const token = ref("");
 
@@ -27,39 +28,18 @@ onMounted(() => {
         <div class="container-fluid">
             <div id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                    <NavbarItem v-if="token" name="home" title="Home" />
+                    <NavbarItem v-if="token" name="users" title="Users" />
+                    <NavbarItem v-if="token" name="personal" title="Personal" />
+                    <NavbarItem v-if="token" name="page" title="Page" />
+                    <NavbarItem v-if="!token" name="user.login" title="Login" />
+                    <NavbarItem
+                        v-if="!token"
+                        name="user.registration"
+                        title="Registration"
+                    />
                     <li class="nav-item" v-if="token">
-                        <router-link class="nav-link" to="/">Home</router-link>
-                    </li>
-                    <li class="nav-item" v-if="token">
-                        <router-link class="nav-link" to="/users">Users</router-link>
-                    </li>
-                    <li class="nav-item" v-if="token">
-                        <router-link class="nav-link" to="/personal"
-                            >Personal</router-link
-                        >
-                    </li>
-                    <li class="nav-item" v-if="token">
-                        <router-link class="nav-link" to="/page"
-                            >Page</router-link
-                        >
-                    </li>
-                    <li class="nav-item" v-if="!token">
-                        <router-link
-                            class="nav-link"
-                            :to="{ name: 'user.login' }"
-                            >Login</router-link
-                        >
-                    </li>
-                    <li class="nav-item" v-if="!token">
-                        <router-link
-                            class="nav-link"
-                            :to="{ name: 'user.registration' }"
-                            >Registration</router-link
-                        >
-                    </li>
-                    <li class="nav-item" v-if="token">
-                        <a href="#" @click.prevent="logout" class="nav-link"
-                            >Logout</a
+                        <a href="#" @click.prevent="logout" class="nav-link">Logout</a
                         >
                     </li>
                 </ul>
