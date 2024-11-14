@@ -19,7 +19,7 @@ const posts = ref([]);
 const getPosts = async () => {
     try {
         const response = await axios.get("/api/posts");
-        console.log(JSON.stringify(response.data.data, null, 4));
+        // console.log(JSON.stringify(response.data.data, null, 4));
         posts.value = response.data.data;
     } catch (error) {
         console.log(error);

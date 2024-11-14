@@ -31,14 +31,23 @@ onMounted(async () => {
                 <th scope="col">#Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
+                <th scope="col">Link</th>
             </tr>
         </thead>
         <Loading v-if="loading" />
-        <tbody v-if=" users.length">
+        <tbody v-if="users.length">
             <tr v-for="(user, index) in users" :key="index">
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
+                <td>
+                    <router-link
+                            :to="{ name: 'user.posts', params: { id: user.id } }"
+                            class="btn btn-success"
+                    >
+                        View
+                    </router-link>
+                </td>
             </tr>
         </tbody>
     </table>

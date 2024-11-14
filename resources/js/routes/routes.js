@@ -15,8 +15,8 @@ const router = createRouter({
         },
         {
             path: "/users/:id/posts",
-            component: () => import("../views/User.vue"),
-            name: "users.posts",
+            component: () => import("../views/UserPosts.vue"),
+            name: "user.posts",
         },
         {
             path: "/personal",

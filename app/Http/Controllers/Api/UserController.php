@@ -14,8 +14,13 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function posts(User $user){
+    public function posts($id){
+        $user = User::find($id);
         $posts = $user->posts;
         return PostResource::collection($posts);
+    }
+    public function show($id){
+        $user = User::find($id);
+        return new UserResource($user);
     }
 }
