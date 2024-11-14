@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import IconHeart from "../icons/IconHeart.vue";
+
 const props = defineProps({
     post: Object,
 });
+
 </script>
 
 <template>
@@ -15,7 +18,10 @@ const props = defineProps({
         <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.content }}</p>
-            <p class="card-text">
+            <p class="d-flex justify-content-between mt-3 card-text">
+                <a href="#">
+                    <IconHeart :fill="`${post.is_liked ? 'red' : 'white'}`" />
+                </a>
                 <small class="text-muted">{{ post.date }}</small>
             </p>
         </div>

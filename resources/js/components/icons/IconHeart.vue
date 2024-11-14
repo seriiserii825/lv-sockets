@@ -1,14 +1,16 @@
 <script setup lang="ts">
-
+const props = defineProps({
+    fill: String,
+});
 </script>
 
 <template>
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
+        :fill="fill"
         viewBox="0 0 24 24"
         stroke-width="1.5"
-        stroke="currentColor"
+        stroke="red"
         class="size-6"
     >
         <path
