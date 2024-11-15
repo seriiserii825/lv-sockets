@@ -2,6 +2,11 @@
 import { watch } from "vue";
 import { ref } from "vue";
 import InputComponent from "../forms/InputComponent.vue";
+import axios from "axios";
+
+const props = defineProps({
+    post: Object,
+});
 
 const emits = defineEmits(["emit_title", "emit_content"]);
 
@@ -15,6 +20,22 @@ watch(title, (newVal) => {
 watch(content, (newVal) => {
     emits("emit_content", newVal);
 });
+
+function onSubmit() {
+    axios
+        .post(`/api/posts/${props.post.id}/repost`, {
+            title: title.value,
+            content: content.value,
+        })
+        .then((res) => {
+            console.log(res, "res");
+            title.value = "";
+            content.value = "";
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
 </script>
 
 <template>
@@ -35,5 +56,6 @@ watch(content, (newVal) => {
                 rows="4"
             ></textarea>
         </div>
+        <button @click="onSubmit" class="btn btn-primary">Repost</button>
     </div>
 </template>

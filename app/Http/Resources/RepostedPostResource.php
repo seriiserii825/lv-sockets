@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\PostImage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class RepostedPostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,12 +26,6 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'image_url' => $image_url,
-            'date' => $this->created_at->diffForHumans(),
-            'is_liked' => $this->is_liked ?? false,
-            'likes_count' => $this->likedUsers->count(),
-            'reposted_post' => new RepostedPostResource($this->repostedPosts),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -5,6 +5,11 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import RepostForm from "./RepostForm.vue";
 import IconRepost from "../icons/IconRepost.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const is_personal = ref(false);
 
 const props = defineProps({
     post: Object,
@@ -36,6 +41,9 @@ async function toggleLike() {
 }
 
 onMounted(() => {
+    if (route.name === 'personal') {
+        is_personal.value = true;
+    }
     is_liked.value = props.post.is_liked;
     likes_count.value = props.post.likes_count;
     console.log(likes_count.value, "likes_count.value");
@@ -63,15 +71,31 @@ onMounted(() => {
                     <span class="fw-bold">{{ likes_count }}</span>
                 </a>
                 <small class="text-muted ml-auto mr-3">{{ post.date }}</small>
-                <div @click="repost_status = !repost_status" class="ml-2">
+                <div v-if="!is_personal" @click="repost_status = !repost_status" class="ml-2">
                     <IconRepost :active="repost_status" />
                 </div>
             </div>
         </div>
+        <div
+            v-if="post.reposted_post"
+            class="p-3 bg-light border-top border-bottom"
+        >
+            <img
+                v-if="post.reposted_post.image_url"
+                :src="post.reposted_post.image_url"
+                class="card-img-top"
+                alt="post.reposted_post.title"
+            />
+            <div class="card-body">
+                <h5 class="card-title">{{ post.reposted_post.title }}</h5>
+                <p class="card-text">{{ post.reposted_post.content }}</p>
+            </div>
+        </div>
         <RepostForm
-            v-if="repost_status"
+            v-if="repost_status && !is_personal"
             @emit_title="emitTitle"
             @emit_content="emitContent"
+            :post="post"
         />
     </div>
 </template>

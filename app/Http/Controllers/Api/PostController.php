@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\RepostRequest;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Resources\PostResource;
 use App\Models\LikedPost;
@@ -70,6 +71,14 @@ class PostController extends Controller
         return new PostResource($post);
     }
 
+    public function repost(RepostRequest $repost, Post $post)
+    {
+        $data = $repost->validated();
+        $data['user_id'] = auth()->id();
+        $data['reposted_id'] = $post->id;
+        Post::create($data);
+    }
+
     protected function processImage($post, $image_id)
     {
         if (isset($image_id)) {
@@ -130,5 +139,4 @@ class PostController extends Controller
         $data['likes_count'] = $post->likedUsers()->count();
         return $data;
     }
-
 }
