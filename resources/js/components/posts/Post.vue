@@ -3,6 +3,8 @@ import axios from "axios";
 import IconHeart from "../icons/IconHeart.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
+import RepostForm from "./RepostForm.vue";
+import IconRepost from "../icons/IconRepost.vue";
 
 const props = defineProps({
     post: Object,
@@ -11,12 +13,23 @@ const props = defineProps({
 const is_liked = ref(false);
 const likes_count = ref(0);
 
+const repost_title = ref("");
+const repost_text = ref("");
+const repost_status = ref(false);
+
+function emitTitle(title: string) {
+    repost_title.value = title;
+}
+function emitContent(content: string) {
+    repost_text.value = content;
+}
+
 async function toggleLike() {
     try {
         const res = await axios.get(`/api/posts/${props.post.id}/toggle_liked`);
         is_liked.value = res.data.is_liked;
         likes_count.value = res.data.likes_count;
-        console.log(likes_count.value, "likes_count.value");
+        // console.log(likes_count.value, "likes_count.value");
     } catch (error) {
         console.error("error", error);
     }
@@ -40,7 +53,7 @@ onMounted(() => {
         <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.content }}</p>
-            <p class="d-flex justify-content-between mt-3 card-text">
+            <div class="d-flex mt-3 card-text">
                 <a
                     href="#"
                     @click.prevent="toggleLike"
@@ -49,9 +62,17 @@ onMounted(() => {
                     <IconHeart :fill="`${is_liked ? 'red' : 'white'}`" />
                     <span class="fw-bold">{{ likes_count }}</span>
                 </a>
-                <small class="text-muted">{{ post.date }}</small>
-            </p>
+                <small class="text-muted ml-auto mr-3">{{ post.date }}</small>
+                <div @click="repost_status = !repost_status" class="ml-2">
+                    <IconRepost :active="repost_status" />
+                </div>
+            </div>
         </div>
+        <RepostForm
+            v-if="repost_status"
+            @emit_title="emitTitle"
+            @emit_content="emitContent"
+        />
     </div>
 </template>
 
