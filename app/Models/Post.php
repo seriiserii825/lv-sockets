@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
     protected $guarded = false;
 
-    protected $with = ['image', 'likedUsers', 'repostedPosts'];
+    protected $with = ['image', 'likedUsers', 'repostedPosts', 'comments'];
 
     public function image(){
         return $this->hasOne(PostImage::class, 'post_id', 'id')->whereNotNull('post_id');
@@ -23,6 +23,10 @@ class Post extends Model
 
     public function repostedPosts(){
         return $this->belongsTo(Post::class, 'reposted_id', 'id');
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class, 'post_id', 'id');
     }
 
 }

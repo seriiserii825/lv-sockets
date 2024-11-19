@@ -150,4 +150,9 @@ class PostController extends Controller
         $comment = Comment::create(array_merge($data, $request->validated()));
         return new CommentResource($comment);
     }
+
+    public function getComments(Post $post)
+    {
+        return CommentResource::collection($post->comments);
+    }
 }

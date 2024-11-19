@@ -23,6 +23,7 @@ const repost_text = ref("");
 const repost_status = ref(false);
 
 const comment_body = ref("");
+const comments = ref([]);
 
 function emitTitle(title: string) {
     repost_title.value = title;
@@ -42,13 +43,22 @@ async function toggleLike() {
     }
 }
 
-async function commentHandler(){
+async function getComments() {
+    try {
+        const res = await axios.get(`/api/posts/${props.post.id}/comments`);
+        comments.value = res.data.data;
+    } catch (error) {
+        console.error("error", error);
+    }
+}
+
+async function commentHandler() {
     if (!comment_body.value) {
         return;
     }
     try {
         const res = await axios.post(`/api/posts/${props.post.id}/comment`, {
-            body: comment_body.value
+            body: comment_body.value,
         });
         console.log(res.data, "res.data");
         comment_body.value = "";
@@ -58,7 +68,7 @@ async function commentHandler(){
 }
 
 onMounted(() => {
-    if (route.name === 'personal') {
+    if (route.name === "personal") {
         is_personal.value = true;
     }
     is_liked.value = props.post.is_liked;
@@ -88,7 +98,11 @@ onMounted(() => {
                     <span class="fw-bold">{{ likes_count }}</span>
                 </a>
                 <small class="text-muted ml-auto mr-3">{{ post.date }}</small>
-                <div v-if="!is_personal" @click="repost_status = !repost_status" class="ml-2">
+                <div
+                    v-if="!is_personal"
+                    @click="repost_status = !repost_status"
+                    class="ml-2"
+                >
                     <IconRepost :active="repost_status" />
                 </div>
             </div>
@@ -114,9 +128,33 @@ onMounted(() => {
             @emit_content="emitContent"
             :post="post"
         />
-        <div class="p-3">
-            <textarea v-model="comment_body" class="form-control" rows="3"></textarea>
-            <button @click="commentHandler" class="btn btn-primary mt-2">Comment</button>
+        <div v-if="!is_personal">
+            <div v-if="post.comments_count > 0" class="p-3">
+                <button class="btn btn-success" @click="getComments">
+                    Show comments {{ post.comments_count }}
+                </button>
+                <div v-if="comments.length" class="mt-2">
+                    <div
+                        v-for="comment in comments"
+                        :key="comment.id"
+                        class="p-2 mb-2 border-bottom border-1 border-info"
+                    >
+                        <strong>{{ comment.user.name }}</strong>
+                        <p class="p-2">{{ comment.body }}</p>
+                        <div class="d-flex justify-content-end italic">{{ comment.date }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+                <textarea
+                    v-model="comment_body"
+                    class="form-control"
+                    rows="3"
+                ></textarea>
+                <button @click="commentHandler" class="btn btn-primary mt-2">
+                    Comment
+                </button>
+            </div>
         </div>
     </div>
 </template>
