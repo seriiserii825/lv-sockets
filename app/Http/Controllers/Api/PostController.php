@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\Comment\StoreRequest as CommentStoreRequest;
 use App\Http\Requests\Post\RepostRequest;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Resources\Post\CommentResource;
 use App\Http\Resources\PostResource;
+use App\Models\Comment;
 use App\Models\LikedPost;
 use App\Models\Post;
 use App\Models\PostImage;
@@ -138,5 +141,13 @@ class PostController extends Controller
         $data['is_liked'] = count($res['attached']) > 0;
         $data['likes_count'] = $post->likedUsers()->count();
         return $data;
+    }
+
+    public function comment(Post $post, CommentStoreRequest $request)
+    {
+        $data['user_id'] = auth()->id();
+        $data['post_id'] = $post->id;
+        $comment = Comment::create(array_merge($data, $request->validated()));
+        return new CommentResource($comment);
     }
 }

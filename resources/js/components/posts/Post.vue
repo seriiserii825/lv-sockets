@@ -22,6 +22,8 @@ const repost_title = ref("");
 const repost_text = ref("");
 const repost_status = ref(false);
 
+const comment_body = ref("");
+
 function emitTitle(title: string) {
     repost_title.value = title;
 }
@@ -35,6 +37,21 @@ async function toggleLike() {
         is_liked.value = res.data.is_liked;
         likes_count.value = res.data.likes_count;
         // console.log(likes_count.value, "likes_count.value");
+    } catch (error) {
+        console.error("error", error);
+    }
+}
+
+async function commentHandler(){
+    if (!comment_body.value) {
+        return;
+    }
+    try {
+        const res = await axios.post(`/api/posts/${props.post.id}/comment`, {
+            body: comment_body.value
+        });
+        console.log(res.data, "res.data");
+        comment_body.value = "";
     } catch (error) {
         console.error("error", error);
     }
@@ -97,6 +114,10 @@ onMounted(() => {
             @emit_content="emitContent"
             :post="post"
         />
+        <div class="p-3">
+            <textarea v-model="comment_body" class="form-control" rows="3"></textarea>
+            <button @click="commentHandler" class="btn btn-primary mt-2">Comment</button>
+        </div>
     </div>
 </template>
 
