@@ -153,6 +153,7 @@ class PostController extends Controller
 
     public function getComments(Post $post)
     {
-        return CommentResource::collection($post->comments);
+        // post comments in descending order
+        return CommentResource::collection($post->comments()->latest()->get());
     }
 }

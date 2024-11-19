@@ -24,6 +24,7 @@ const repost_status = ref(false);
 
 const comment_body = ref("");
 const comments = ref([]);
+const is_visible_comments = ref(false);
 
 function emitTitle(title: string) {
     repost_title.value = title;
@@ -44,6 +45,7 @@ async function toggleLike() {
 }
 
 async function getComments() {
+    is_visible_comments.value = true;
     try {
         const res = await axios.get(`/api/posts/${props.post.id}/comments`);
         comments.value = res.data.data;
@@ -60,8 +62,9 @@ async function commentHandler() {
         const res = await axios.post(`/api/posts/${props.post.id}/comment`, {
             body: comment_body.value,
         });
-        console.log(res.data, "res.data");
         comment_body.value = "";
+        props.post.comments_count++;
+        is_visible_comments.value = false;
     } catch (error) {
         console.error("error", error);
     }
@@ -130,10 +133,11 @@ onMounted(() => {
         />
         <div v-if="!is_personal">
             <div v-if="post.comments_count > 0" class="p-3">
-                <button class="btn btn-success" @click="getComments">
+                <button v-if="!is_visible_comments" class="btn btn-success" @click="getComments">
                     Show comments {{ post.comments_count }}
                 </button>
-                <div v-if="comments.length" class="mt-2">
+                <button v-else class="btn btn-danger" @click="is_visible_comments = !is_visible_comments">Close</button>
+                <div v-if="comments.length && is_visible_comments" class="mt-2">
                     <div
                         v-for="comment in comments"
                         :key="comment.id"
